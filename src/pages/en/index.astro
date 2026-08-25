@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../lib/formatDate';
+
+const posts = (await getCollection('devlogEn')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const base = import.meta.env.BASE_URL;
+---
+<Layout title="Devlog" lang="en" switchHref={base}>
+  <h1>Devlog</h1>
+  <ul>
+    {posts.map((post) => (
+      <li>
+        <a href={`${base}en/devlog/${post.id}/`}>{post.data.title}</a>
+        {' — '}
+        <time datetime={post.data.date.toISOString()}>
+          {formatDate(post.data.date, 'en-US')}
+        </time>
+        {post.data.excerpt && <p>{post.data.excerpt}</p>}
+      </li>
+    ))}
+  </ul>
+</Layout>

@@ -1,0 +1,83 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/gallery/*.{jpeg,jpg,png,webp}'
+);
+const images = await Promise.all(
+  Object.entries(imageModules).map(async ([path, resolve]) => ({
+    path,
+    image: (await resolve()).default,
+  }))
+);
+const base = import.meta.env.BASE_URL;
+---
+<Layout title="Gallery" lang="en" switchHref={`${base}gallery/`}>
+  <h1>Gallery</h1>
+  {images.length === 0 && <p>No screenshots yet — check back soon.</p>}
+  <div class="grid">
+    {images.map(({ path, image }) => (
+      <a href={image.src} class="lightbox-trigger" data-full={image.src}>
+        <Image src={image} alt="Space4X screenshot" width={400} />
+      </a>
+    ))}
+  </div>
+  <div id="lightbox" class="lightbox hidden">
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+</Layout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 7, 13, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.hidden {
+    display: none;
+  }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border: 1px solid var(--color-line-dim);
+    border-radius: 4px;
+  }
+  .grid a {
+    display: block;
+    border: 1px solid var(--color-line-dim);
+    border-radius: 4px;
+    overflow: hidden;
+    line-height: 0;
+    transition: border-color 0.15s ease;
+  }
+  .grid a:hover {
+    border-color: var(--color-line);
+  }
+  .grid img {
+    display: block;
+    width: 100%;
+  }
+</style>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  document.querySelectorAll<HTMLAnchorElement>('.lightbox-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      lightboxImg.src = trigger.dataset.full ?? '';
+      lightbox?.classList.remove('hidden');
+    });
+  });
+  lightbox?.addEventListener('click', () => lightbox.classList.add('hidden'));
+</script>
