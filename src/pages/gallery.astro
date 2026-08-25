@@ -37,7 +37,7 @@ const images = await Promise.all(
   .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(2, 7, 13, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,6 +48,23 @@ const images = await Promise.all(
   .lightbox img {
     max-width: 90vw;
     max-height: 90vh;
+    border: 1px solid var(--color-line-dim);
+    border-radius: 4px;
+  }
+  .grid a {
+    display: block;
+    border: 1px solid var(--color-line-dim);
+    border-radius: 4px;
+    overflow: hidden;
+    line-height: 0;
+    transition: border-color 0.15s ease;
+  }
+  .grid a:hover {
+    border-color: var(--color-line);
+  }
+  .grid img {
+    display: block;
+    width: 100%;
   }
 </style>
 
