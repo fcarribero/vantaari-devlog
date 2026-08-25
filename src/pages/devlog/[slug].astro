@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
+import { formatDate } from '../../lib/formatDate';
 
 export async function getStaticPaths() {
   const posts = await getCollection('devlog');
@@ -17,7 +18,7 @@ const { Content } = await render(post);
   <article>
     <h1>{post.data.title}</h1>
     <time datetime={post.data.date.toISOString()}>
-      {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      {formatDate(post.data.date)}
     </time>
     <Content />
   </article>

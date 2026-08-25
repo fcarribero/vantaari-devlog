@@ -9,12 +9,18 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: withastro/action@v6
+        with:
+          node-version: 22
 
   deploy:
     needs: build
