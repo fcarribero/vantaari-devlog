@@ -3,12 +3,26 @@ import '../styles/global.css';
 
 interface Props {
   title: string;
+  lang: 'es' | 'en';
+  switchHref: string;
 }
-const { title } = Astro.props;
+const { title, lang, switchHref } = Astro.props;
 const base = import.meta.env.BASE_URL;
+
+const nav = lang === 'es'
+  ? { home: 'Inicio', about: 'Acerca de', gallery: 'Galería', switch: 'ENG' }
+  : { home: 'Home', about: 'About', gallery: 'Gallery', switch: 'ES' };
+
+const homeHref = lang === 'es' ? base : `${base}en/`;
+const aboutHref = lang === 'es' ? `${base}about/` : `${base}en/about/`;
+const galleryHref = lang === 'es' ? `${base}gallery/` : `${base}en/gallery/`;
+
+const footerText = lang === 'es'
+  ? 'Space4X — todos los derechos reservados'
+  : 'Space4X — all rights reserved';
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -19,16 +33,17 @@ const base = import.meta.env.BASE_URL;
   <body>
     <header>
       <nav>
-        <a href={base}>Home</a>
-        <a href={`${base}about/`}>About</a>
-        <a href={`${base}gallery/`}>Gallery</a>
+        <a href={homeHref}>{nav.home}</a>
+        <a href={aboutHref}>{nav.about}</a>
+        <a href={galleryHref}>{nav.gallery}</a>
+        <a href={switchHref} class="lang-switch">{nav.switch}</a>
       </nav>
     </header>
     <main>
       <slot />
     </main>
     <footer>
-      <p>&copy; 2026 Space4X</p>
+      <p>&copy; 2026 {footerText}</p>
     </footer>
   </body>
 </html>

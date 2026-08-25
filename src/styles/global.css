@@ -150,6 +150,10 @@ header nav a:hover {
   text-decoration: none;
 }
 
+header nav a.lang-switch {
+  margin-left: auto;
+}
+
 main {
   padding-top: 2rem;
   padding-bottom: 3rem;
