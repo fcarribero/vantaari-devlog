@@ -3,12 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../lib/formatDate';
 
-const posts = (await getCollection('devlog')).sort(
+const posts = (await getCollection('devlogEs')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 const base = import.meta.env.BASE_URL;
 ---
-<Layout title="Devlog">
+<Layout title="Devlog" lang="es" switchHref={`${base}en/`}>
   <h1>Devlog</h1>
   <ul>
     {posts.map((post) => (
@@ -16,7 +16,7 @@ const base = import.meta.env.BASE_URL;
         <a href={`${base}devlog/${post.id}/`}>{post.data.title}</a>
         {' — '}
         <time datetime={post.data.date.toISOString()}>
-          {formatDate(post.data.date)}
+          {formatDate(post.data.date, 'es-AR')}
         </time>
         {post.data.excerpt && <p>{post.data.excerpt}</p>}
       </li>

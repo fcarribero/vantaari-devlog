@@ -12,14 +12,15 @@ const images = await Promise.all(
     image: (await resolve()).default,
   }))
 );
+const base = import.meta.env.BASE_URL;
 ---
-<Layout title="Gallery">
-  <h1>Gallery</h1>
-  {images.length === 0 && <p>No screenshots yet — check back soon.</p>}
+<Layout title="Galería" lang="es" switchHref={`${base}en/gallery/`}>
+  <h1>Galería</h1>
+  {images.length === 0 && <p>Todavía no hay capturas — volvé pronto.</p>}
   <div class="grid">
     {images.map(({ path, image }) => (
       <a href={image.src} class="lightbox-trigger" data-full={image.src}>
-        <Image src={image} alt="Space4X screenshot" width={400} />
+        <Image src={image} alt="Captura de Space4X" width={400} />
       </a>
     ))}
   </div>
