@@ -1,0 +1,24 @@
+---
+import { formatDate } from '../lib/formatDate';
+
+interface Props {
+  title: string;
+  date: Date;
+  locale: string;
+  category: string;
+  prevHref?: string;
+  prevLabel?: string;
+}
+const { title, date, locale, category, prevHref, prevLabel } = Astro.props;
+---
+<article>
+  <h1>[{category.toUpperCase()}] {title}</h1>
+  <time datetime={date.toISOString()}>{formatDate(date, locale)}</time>
+  <slot />
+  {prevHref && (
+    <>
+      <hr class="prev-sep" />
+      <p class="prev-nav"><a href={prevHref}>&larr; {prevLabel}</a></p>
+    </>
+  )}
+</article>

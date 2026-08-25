@@ -4,9 +4,9 @@ import { glob } from 'astro/loaders';
 const devlogSchema = z.object({
   title: z.string(),
   date: z.coerce.date(),
+  category: z.string().default('devlog'),
   tags: z.array(z.string()).default([]),
   cover: z.string().optional(),
-  excerpt: z.string().optional(),
 });
 
 const devlogEs = defineCollection({

@@ -16,7 +16,7 @@ const base = import.meta.env.BASE_URL;
 ---
 <Layout title="Galería" lang="es" switchHref={`${base}en/gallery/`}>
   <h1>Galería</h1>
-  {images.length === 0 && <p>Todavía no hay capturas — volvé pronto.</p>}
+  {images.length === 0 && <p>Todavía no hay capturas. Van a aparecer pronto.</p>}
   <div class="grid">
     {images.map(({ path, image }) => (
       <a href={image.src} class="lightbox-trigger" data-full={image.src}>
@@ -49,19 +49,10 @@ const base = import.meta.env.BASE_URL;
   .lightbox img {
     max-width: 90vw;
     max-height: 90vh;
-    border: 1px solid var(--color-line-dim);
-    border-radius: 4px;
   }
   .grid a {
     display: block;
-    border: 1px solid var(--color-line-dim);
-    border-radius: 4px;
-    overflow: hidden;
     line-height: 0;
-    transition: border-color 0.15s ease;
-  }
-  .grid a:hover {
-    border-color: var(--color-line);
   }
   .grid img {
     display: block;

@@ -160,51 +160,6 @@ main {
   min-height: 60vh;
 }
 
-main ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-main li {
-  background: var(--color-panel);
-  border: 1px solid var(--color-line-dim);
-  border-radius: 4px;
-  padding: 1rem 1.25rem;
-  transition: border-color 0.15s ease;
-}
-
-main li:hover {
-  border-color: var(--color-line);
-}
-
-main li a {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 1.1rem;
-  color: var(--color-text);
-  display: block;
-}
-
-main li a:hover {
-  color: var(--color-text-highlight);
-  text-decoration: none;
-}
-
-main li time {
-  display: block;
-  margin-top: 0.25rem;
-}
-
-main li p {
-  margin: 0.5rem 0 0;
-  color: var(--color-text-secondary);
-  font-size: 0.95rem;
-}
-
 article h1 {
   font-size: 1.8rem;
   margin-bottom: 0.25rem;
@@ -212,6 +167,21 @@ article h1 {
 
 article p {
   color: var(--color-text);
+}
+
+.prev-sep {
+  margin: 2rem 0 1rem;
+  border: none;
+  border-top: 1px solid var(--color-line-dim);
+}
+
+.prev-nav {
+  margin: 0;
+}
+
+.prev-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
 }
 
 footer {

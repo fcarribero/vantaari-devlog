@@ -1,26 +1,31 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import PostView from '../../../components/PostView.astro';
 import { getCollection, render } from 'astro:content';
-import { formatDate } from '../../../lib/formatDate';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('devlogEn');
-  return posts.map((post) => ({
+  const posts = (await getCollection('devlogEn')).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  );
+  return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: { post, prev: posts[index + 1] },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prev } = Astro.props;
 const { Content } = await render(post);
 const base = import.meta.env.BASE_URL;
 ---
 <Layout title={post.data.title} lang="en" switchHref={`${base}devlog/${post.id}/`}>
-  <article>
-    <h1>{post.data.title}</h1>
-    <time datetime={post.data.date.toISOString()}>
-      {formatDate(post.data.date, 'en-US')}
-    </time>
+  <PostView
+    title={post.data.title}
+    date={post.data.date}
+    category={post.data.category}
+    locale="en-US"
+    prevHref={prev ? `${base}en/devlog/${prev.id}/` : undefined}
+    prevLabel={prev?.data.title}
+  >
     <Content />
-  </article>
+  </PostView>
 </Layout>
