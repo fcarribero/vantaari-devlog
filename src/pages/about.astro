@@ -1,12 +1,57 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getImage } from 'astro:assets';
+import bgImage from '../assets/banner/loading-background.png';
+
 const base = import.meta.env.BASE_URL;
+const optimizedBg = await getImage({ src: bgImage, width: 1672, format: 'webp' });
 ---
-<Layout title="Acerca de" lang="es" switchHref={`${base}en/about/`}>
-  <h1>Acerca de Space4X</h1>
+<Layout title="Acerca de" lang="es" switchHref={`${base}en/about/`} pageBackgroundSrc={optimizedBg.src}>
+  <h1>Acerca de Vantaari</h1>
   <p>
-    Space4X es un juego 4X espacial para un jugador, al estilo de EVE Online —
-    exploración, industria, comercio y combate en una galaxia persistente.
-    Este devlog sigue su desarrollo.
+    Vantaari es un juego 4X espacial para un jugador, al estilo de EVE Online:
+    exploración, industria, comercio y combate en una galaxia persistente donde
+    las acciones tienen consecuencias reales sobre el territorio, la economía y
+    el poder. Nada guionado, todo emergente.
   </p>
+
+  <h2>El universo</h2>
+  <p>La galaxia está dividida entre varias facciones, cada una con su propia identidad:</p>
+  <ul>
+    <li><strong>Nova Union.</strong> Orden, industria y seguridad.</li>
+    <li><strong>Helios Concord.</strong> Diplomacia, ciencia y defensa civil. Aliada de Nova Union.</li>
+    <li><strong>Freehold League.</strong> Estaciones libres y comercio independiente.</li>
+    <li><strong>Veyra Syndicate.</strong> Corporaciones, mercado y tecnología.</li>
+    <li><strong>Khar Dominion.</strong> Militarismo, frontera y conquista.</li>
+    <li><strong>Redwake Raiders.</strong> Crimen, saqueo y contrabando.</li>
+  </ul>
+
+  <h2>Funciones actuales</h2>
+  <ul>
+    <li>Explorar un sistema solar y un mapa galáctico que conecta varios sistemas.</li>
+    <li>Viajar en warp para distancias largas.</li>
+    <li>Minar asteroides para conseguir minerales.</li>
+    <li>Una simulación económica: los minerales se refinan en materiales y componentes a través de refinerías, fábricas y mercados.</li>
+    <li>Equipar y cambiar armas, escudos y otros módulos en la nave.</li>
+    <li>Combate real: armas, escudos, daño al casco, y naves que se pueden destruir.</li>
+    <li>Enemigos que atacan y se defienden por su cuenta.</li>
+    <li>Drones que puedes lanzar desde tu nave.</li>
+    <li>Caza de recompensas contra piratas buscados.</li>
+    <li>Personajes con diálogos, voces y conversaciones con ramificaciones.</li>
+    <li>Un codex dentro del juego con información del universo.</li>
+    <li>Varios modos de cámara: orbital, táctica y primera persona.</li>
+    <li>Sonido completo: motores, armas, warp y música.</li>
+  </ul>
+
+  <h2>Lo que viene</h2>
+  <ul>
+    <li>Diplomacia más profunda entre facciones.</li>
+    <li>Misiones con objetivos y recompensas reales.</li>
+    <li>Misiones de comercio.</li>
+    <li>Misiones de transporte.</li>
+    <li>Carreras.</li>
+    <li>Un sistema de investigación tecnológica.</li>
+    <li>Comando de flotas, para coordinar varias naves a la vez.</li>
+    <li>Más tipos de estaciones y una economía más dinámica.</li>
+  </ul>
 </Layout>

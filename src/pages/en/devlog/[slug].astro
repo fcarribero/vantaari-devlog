@@ -9,15 +9,15 @@ export async function getStaticPaths() {
   );
   return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post, prev: posts[index + 1] },
+    props: { post, prev: posts[index + 1], next: posts[index - 1] },
   }));
 }
 
-const { post, prev } = Astro.props;
+const { post, prev, next } = Astro.props;
 const { Content } = await render(post);
 const base = import.meta.env.BASE_URL;
 ---
-<Layout title={post.data.title} lang="en" switchHref={`${base}devlog/${post.id}/`}>
+<Layout title={post.data.title} lang="en" switchHref={`${base}devlog/${post.id}/`} activeSlug={post.id} showSidebar>
   <PostView
     title={post.data.title}
     date={post.data.date}
@@ -25,6 +25,8 @@ const base = import.meta.env.BASE_URL;
     locale="en-US"
     prevHref={prev ? `${base}en/devlog/${prev.id}/` : undefined}
     prevLabel={prev?.data.title}
+    nextHref={next ? `${base}en/devlog/${next.id}/` : undefined}
+    nextLabel={next?.data.title}
   >
     <Content />
   </PostView>

@@ -1,12 +1,57 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getImage } from 'astro:assets';
+import bgImage from '../../assets/banner/loading-background.png';
+
 const base = import.meta.env.BASE_URL;
+const optimizedBg = await getImage({ src: bgImage, width: 1672, format: 'webp' });
 ---
-<Layout title="About" lang="en" switchHref={`${base}about/`}>
-  <h1>About Space4X</h1>
+<Layout title="About" lang="en" switchHref={`${base}about/`} pageBackgroundSrc={optimizedBg.src}>
+  <h1>About Vantaari</h1>
   <p>
-    Space4X is a single-player 4X space game in the style of EVE Online —
-    exploration, industry, trade, and combat across a persistent galaxy.
-    This devlog tracks its development.
+    Vantaari is a single-player 4X space game in the style of EVE Online:
+    exploration, industry, trade, and combat across a persistent galaxy where
+    your actions have real consequences for territory, economy, and power.
+    Nothing scripted, all of it emergent.
   </p>
+
+  <h2>The universe</h2>
+  <p>The galaxy is divided between several factions, each with its own identity:</p>
+  <ul>
+    <li><strong>Nova Union.</strong> Order, industry, and security.</li>
+    <li><strong>Helios Concord.</strong> Diplomacy, science, and civil defense. Allied with Nova Union.</li>
+    <li><strong>Freehold League.</strong> Free stations and independent trade.</li>
+    <li><strong>Veyra Syndicate.</strong> Corporations, markets, and technology.</li>
+    <li><strong>Khar Dominion.</strong> Militarism, frontier, and conquest.</li>
+    <li><strong>Redwake Raiders.</strong> Crime, plunder, and smuggling.</li>
+  </ul>
+
+  <h2>Current features</h2>
+  <ul>
+    <li>Explore a solar system and a galactic map connecting several systems.</li>
+    <li>Travel in warp for longer distances.</li>
+    <li>Mine asteroids for raw minerals.</li>
+    <li>An economic simulation: minerals get refined into materials and components through refineries, factories, and markets.</li>
+    <li>Fit and swap weapons, shields, and other modules on your ship.</li>
+    <li>Real combat: weapons, shields, hull damage, and ships that can be destroyed.</li>
+    <li>Enemies that attack and defend themselves on their own.</li>
+    <li>Drones you can launch from your ship.</li>
+    <li>Bounty hunting against wanted pirates.</li>
+    <li>Characters with dialogue, voices, and branching conversations.</li>
+    <li>An in-game codex with info about the setting.</li>
+    <li>Multiple camera modes: orbital, tactical, and first-person.</li>
+    <li>Full sound design: engines, weapons, warp, and music.</li>
+  </ul>
+
+  <h2>What's coming</h2>
+  <ul>
+    <li>Deeper diplomacy between factions.</li>
+    <li>Missions with real objectives and rewards.</li>
+    <li>Trade missions.</li>
+    <li>Transport missions.</li>
+    <li>Careers.</li>
+    <li>A technology research system.</li>
+    <li>Fleet command, to coordinate multiple ships at once.</li>
+    <li>More station types and a more dynamic economy.</li>
+  </ul>
 </Layout>

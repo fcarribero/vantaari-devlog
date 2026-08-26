@@ -1,25 +1,45 @@
 ---
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import bannerImage from '../assets/banner/main-menu-splash.png';
 
 interface Props {
   title: string;
   lang: 'es' | 'en';
   switchHref: string;
+  activeSlug?: string;
+  showSidebar?: boolean;
+  showBanner?: boolean;
+  pageBackgroundSrc?: string;
 }
-const { title, lang, switchHref } = Astro.props;
+const { title, lang, switchHref, activeSlug, showSidebar = false, showBanner = false, pageBackgroundSrc } = Astro.props;
 const base = import.meta.env.BASE_URL;
 
 const nav = lang === 'es'
-  ? { home: 'Inicio', about: 'Acerca de', gallery: 'Galería', switch: 'ENG' }
-  : { home: 'Home', about: 'About', gallery: 'Gallery', switch: 'ES' };
+  ? { home: 'Inicio', about: 'Acerca de', gallery: 'Galería', download: 'Descargar', switch: 'ENG', archive: 'Anteriores', seeAll: 'Ver todos los posts' }
+  : { home: 'Home', about: 'About', gallery: 'Gallery', download: 'Download', switch: 'ES', archive: 'Archive', seeAll: 'See all posts' };
 
 const homeHref = lang === 'es' ? base : `${base}en/`;
 const aboutHref = lang === 'es' ? `${base}about/` : `${base}en/about/`;
 const galleryHref = lang === 'es' ? `${base}gallery/` : `${base}en/gallery/`;
+const downloadHref = lang === 'es' ? `${base}download/` : `${base}en/download/`;
+const devlogBase = lang === 'es' ? `${base}devlog/` : `${base}en/devlog/`;
+const archiveHref = lang === 'es' ? `${base}archivo/` : `${base}en/archive/`;
 
 const footerText = lang === 'es'
-  ? 'Space4X — todos los derechos reservados'
-  : 'Space4X — all rights reserved';
+  ? 'Vantaari, todos los derechos reservados'
+  : 'Vantaari, all rights reserved';
+
+const sidebarPosts = showSidebar
+  ? (await getCollection(lang === 'es' ? 'devlogEs' : 'devlogEn'))
+      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+      .slice(0, 8)
+  : [];
+
+const bodyStyle = pageBackgroundSrc
+  ? `background-image: linear-gradient(rgba(2, 7, 13, 0.82), rgba(2, 7, 13, 0.82)), url(${pageBackgroundSrc}); background-size: cover; background-position: top center; background-attachment: fixed;`
+  : undefined;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -28,20 +48,49 @@ const footerText = lang === 'es'
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="icon" href={`${base}favicon.ico`} />
-    <title>{title} — Space4X Devlog</title>
+    <title>{title} — Vantaari Devlog</title>
   </head>
-  <body>
+  <body style={bodyStyle}>
     <header>
-      <nav>
-        <a href={homeHref}>{nav.home}</a>
-        <a href={aboutHref}>{nav.about}</a>
-        <a href={galleryHref}>{nav.gallery}</a>
-        <a href={switchHref} class="lang-switch">{nav.switch}</a>
-      </nav>
+      <div class="header-inner">
+        <nav>
+          <a href={homeHref}>{nav.home}</a>
+          <a href={aboutHref}>{nav.about}</a>
+          <a href={galleryHref}>{nav.gallery}</a>
+          <a href={downloadHref}>{nav.download}</a>
+          <a href={switchHref} class="lang-switch">{nav.switch}</a>
+        </nav>
+      </div>
     </header>
-    <main>
-      <slot />
-    </main>
+    {showBanner && (
+      <div class="banner">
+        <Image src={bannerImage} alt="" width={1672} loading="eager" />
+      </div>
+    )}
+    {showSidebar ? (
+      <div class="layout">
+        <main>
+          <slot />
+        </main>
+        <aside class="sidebar">
+          <h2>{nav.archive}</h2>
+          <ul>
+            {sidebarPosts.map((post) => (
+              <li>
+                {post.id === activeSlug
+                  ? <span class="current">[{post.data.category.toUpperCase()}] {post.data.title}</span>
+                  : <a href={`${devlogBase}${post.id}/`}>[{post.data.category.toUpperCase()}] {post.data.title}</a>}
+              </li>
+            ))}
+          </ul>
+          <p class="see-all"><a href={archiveHref}>{nav.seeAll} &rarr;</a></p>
+        </aside>
+      </div>
+    ) : (
+      <main class="solo">
+        <slot />
+      </main>
+    )}
     <footer>
       <p>&copy; 2026 {footerText}</p>
     </footer>

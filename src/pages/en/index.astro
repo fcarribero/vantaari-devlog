@@ -11,7 +11,7 @@ const prev = posts[1];
 const { Content } = await render(latest);
 const base = import.meta.env.BASE_URL;
 ---
-<Layout title="Devlog" lang="en" switchHref={base}>
+<Layout title="Devlog" lang="en" switchHref={base} activeSlug={latest.id} showSidebar showBanner>
   <PostView
     title={latest.data.title}
     date={latest.data.date}

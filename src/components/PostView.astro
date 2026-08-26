@@ -8,17 +8,22 @@ interface Props {
   category: string;
   prevHref?: string;
   prevLabel?: string;
+  nextHref?: string;
+  nextLabel?: string;
 }
-const { title, date, locale, category, prevHref, prevLabel } = Astro.props;
+const { title, date, locale, category, prevHref, prevLabel, nextHref, nextLabel } = Astro.props;
 ---
 <article>
   <h1>[{category.toUpperCase()}] {title}</h1>
   <time datetime={date.toISOString()}>{formatDate(date, locale)}</time>
   <slot />
-  {prevHref && (
+  {(prevHref || nextHref) && (
     <>
       <hr class="prev-sep" />
-      <p class="prev-nav"><a href={prevHref}>&larr; {prevLabel}</a></p>
+      <p class="prev-nav">
+        {prevHref && <a href={prevHref} class="prev-link">&larr; {prevLabel}</a>}
+        {nextHref && <a href={nextHref} class="next-link">{nextLabel} &rarr;</a>}
+      </p>
     </>
   )}
 </article>
